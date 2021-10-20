@@ -1,13 +1,15 @@
 from datetime import datetime
 import fdb
-from aiogram import Bot, Dispatcher, executor, types
+import telebot
 
 con = fdb.connect(dsn='127.0.0.1:C:/Electra/El-Ac/train.fdb',
                   user='SYSDBA',
                   password='masterkey',
                   charset='WIN1251')
 
-token = '2070861903:AAFNwC84mSIkzCUb5q4imWJPGCnQDYFZR3o'
+
+bot = telebot.TeleBot('2070861903:AAFNwC84mSIkzCUb5q4imWJPGCnQDYFZR3o')
+
 hleb = 556203349
 
 
@@ -42,6 +44,7 @@ def listen_event():
             print(name)
             print(reader_name)
             print(date_and_time)
+            bot.send_message(chat_id=556203349, text=f'Тест на алкоголь положительный!!!\n{date_and_time}\nТочка доступа - {reader_name}\n{name}')
 
     except Exception as e:
         print(e)
@@ -51,5 +54,6 @@ def listen_event():
 
 
 if __name__ == "__main__":
+    bot.infinity_polling()
     while True:
         listen_event()
